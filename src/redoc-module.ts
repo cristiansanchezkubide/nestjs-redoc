@@ -90,7 +90,9 @@ export class RedocModule {
 
 		// Serve swagger spec in another URL appended to the normalized path
 		const docUrl = resolve(resolvedPath, `${options.docName}.json`)
+		const docUrl2 = '/documentation-json'
 		console.log('docUrl -> ', docUrl)
+		console.log('docUrl2 -> ', docUrl2)
 
 		// create helper to convert metadata to JSON
 		const hbs = handlebars.create({
@@ -119,11 +121,38 @@ export class RedocModule {
 				}),
 			},
 		}
+		const renderData2 = {
+			data: {
+				title,
+				docUrl2,
+				favicon,
+				redocVersion,
+				options: otherOptions,
+				...(theme && {
+					theme: {
+						...theme,
+					},
+				}),
+			},
+		}
+		console.log('########## renderData #########');
 		console.log(renderData)
 		// this is our handlebars file path
 		const redocFilePath = pathModule.join(__dirname, '..', 'views', 'redoc.handlebars')
+		console.log('########## redocFilePath #########');
+		console.log(redocFilePath);
+
 		// get handlebars rendered HTML
 		const redocHTML = await hbs.render(redocFilePath, renderData)
+		const redocHTML2 = await hbs.render(redocFilePath, renderData2)
+		console.log('########## redocHTML #########');
+		console.log(redocHTML);
+
+		console.log('########## finalPath #########');
+		console.log(finalPath);
+
+		console.log('########## httpAdapter.getInstance() #########');
+		console.log(httpAdapter.getInstance());
 		// Serve ReDoc Frontend
 		httpAdapter.get(finalPath, async (req: Request, res: Response) => {
 			const sendPage = () => {
@@ -146,6 +175,10 @@ export class RedocModule {
 		})
 		// Serve swagger spec json
 		httpAdapter.get(docUrl, (req: Request, res: Response) => {
+			res.setHeader('Content-Type', 'application/json')
+			res.send(document)
+		})
+		httpAdapter.get(docUrl2, (req: Request, res: Response) => {
 			res.setHeader('Content-Type', 'application/json')
 			res.send(document)
 		})
