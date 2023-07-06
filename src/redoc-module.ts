@@ -159,24 +159,8 @@ export class RedocModule {
 				sendPage()
 			}
 		})
-		httpAdapter.get(finalPath2, async (req: Request, res: Response) => {
-			const sendPage = () => {
-				// Content-Security-Policy: worker-src 'self' blob:
-				res.setHeader(
-					'Content-Security-Policy',
-					"default-src * 'unsafe-inline' 'unsafe-eval'; script-src * 'unsafe-inline' 'unsafe-eval'; child-src * 'unsafe-inline' 'unsafe-eval' blob:; worker-src * 'unsafe-inline' 'unsafe-eval' blob:; connect-src * 'unsafe-inline'; img-src * data: blob: 'unsafe-inline'; frame-src *; style-src * 'unsafe-inline';",
-				)
-				// whoosh
-				res.send(redocHTML2)
-			}
-			sendPage()
-		})
 		// Serve swagger spec json
 		httpAdapter.get(docUrl, (req: Request, res: Response) => {
-			res.setHeader('Content-Type', 'application/json')
-			res.send(document)
-		})
-		httpAdapter.get(docUrl2, (req: Request, res: Response) => {
 			res.setHeader('Content-Type', 'application/json')
 			res.send(document)
 		})
