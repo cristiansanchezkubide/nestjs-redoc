@@ -158,8 +158,10 @@ export class RedocModule {
 				sendPage()
 			}
 		})
+		console.log(' next -> Serve swagger spec json');
 		// Serve swagger spec json
 		httpAdapter.get(docUrl, (req: Request, res: Response) => {
+			console.log('Serve swagger');
 			res.setHeader('Content-Type', 'application/json')
 			res.send(document)
 		})
