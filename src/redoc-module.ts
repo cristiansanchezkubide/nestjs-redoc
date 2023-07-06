@@ -184,7 +184,7 @@ export class RedocModule {
 				// whoosh
 				res.send(redocHTML2)
 			}
-				sendPage()
+			sendPage()
 		})
 		// Serve swagger spec json
 		httpAdapter.get(docUrl, (req: Request, res: Response) => {
