@@ -8,6 +8,7 @@ import pathModule from 'path'
 import { resolve } from 'url'
 import { LogoOptions, RedocDocument, RedocOptions } from './interfaces'
 import { schema } from './model'
+import {HttpAdapterHost} from '@nestjs/core';
 
 const logger = new Logger('RedocModule')
 
@@ -79,7 +80,9 @@ export class RedocModule {
 		document: RedocDocument,
 		options: RedocOptions,
 	) {
-		const httpAdapter = app.getHttpAdapter()
+		const adapterHost = app.get(HttpAdapterHost);
+		const httpAdapter = adapterHost.httpAdapter;
+		// const httpAdapter = app.getHttpAdapter()
 
 		// Normalize URL path to use
 		const finalPath = this.normalizePath(path)
