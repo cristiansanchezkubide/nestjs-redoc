@@ -79,11 +79,12 @@ export class RedocModule {
 		document: RedocDocument,
 		options: RedocOptions,
 	) {
+		console.log('app');
+		console.log(app.getUrl());
 		console.log('setupExpress')
 		const httpAdapter = app.getHttpAdapter()
 		// Normalize URL path to use
 		const finalPath = this.normalizePath(path)
-		const finalPath2 = '/documentation2'
 		console.log('finalPath -> ', finalPath)
 		// Add a slash to the end of the URL path to use in URL resolve function
 		const resolvedPath = finalPath.slice(-1) !== '/' ? finalPath + '/' : finalPath
@@ -91,9 +92,7 @@ export class RedocModule {
 
 		// Serve swagger spec in another URL appended to the normalized path
 		const docUrl = resolve(resolvedPath, `${options.docName}.json`)
-		const docUrl2 = '/documentation2-json'
 		console.log('docUrl -> ', docUrl)
-		console.log('docUrl2 -> ', docUrl2)
 
 		// create helper to convert metadata to JSON
 		const hbs = handlebars.create({
@@ -122,22 +121,8 @@ export class RedocModule {
 				}),
 			},
 		}
-		const renderData2 = {
-			data: {
-				title,
-				docUrl2,
-				favicon,
-				redocVersion,
-				options: otherOptions,
-				...(theme && {
-					theme: {
-						...theme,
-					},
-				}),
-			},
-		}
-		console.log('########## renderData #########')
-		console.log(renderData)
+		// console.log('########## renderData #########')
+		// console.log(renderData)
 		// this is our handlebars file path
 		const redocFilePath = pathModule.join(__dirname, '..', 'views', 'redoc.handlebars')
 		console.log('########## redocFilePath #########')
@@ -145,23 +130,23 @@ export class RedocModule {
 
 		// get handlebars rendered HTML
 		const redocHTML = await hbs.render(redocFilePath, renderData)
-		const redocHTML2 = await hbs.render(redocFilePath, renderData2)
 		console.log('########## redocHTML #########')
 		console.log(redocHTML)
 
 		console.log('########## finalPath #########')
 		console.log(finalPath)
 
-		console.log('########## httpAdapter.getInstance() #########')
-		console.log(httpAdapter.getInstance())
 		// Serve ReDoc Frontend
 		httpAdapter.get(finalPath, async (req: Request, res: Response) => {
+			console.log('serving redoc frontend');
 			const sendPage = () => {
 				// Content-Security-Policy: worker-src 'self' blob:
 				res.setHeader(
 					'Content-Security-Policy',
 					"default-src * 'unsafe-inline' 'unsafe-eval'; script-src * 'unsafe-inline' 'unsafe-eval'; child-src * 'unsafe-inline' 'unsafe-eval' blob:; worker-src * 'unsafe-inline' 'unsafe-eval' blob:; connect-src * 'unsafe-inline'; img-src * data: blob: 'unsafe-inline'; frame-src *; style-src * 'unsafe-inline';",
 				)
+				console.log('res');
+				console.log(res);
 				// whoosh
 				res.send(redocHTML)
 			}
