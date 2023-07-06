@@ -80,7 +80,9 @@ export class RedocModule {
 		options: RedocOptions,
 	) {
 		console.log('app')
+		console.log(app.listen(9977))
 		console.log(app.getUrl())
+		console.log(app.getHttpServer());
 		console.log('setupExpress')
 		const httpAdapter = app.getHttpAdapter()
 		// Normalize URL path to use
