@@ -1,6 +1,6 @@
 {
   "name": "@cristiansanchezkubide/nestjs-redoc",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "NestJS module to use Redoc",
   "author": {
     "name": "Cristian Sánchez",
