@@ -79,8 +79,8 @@ export class RedocModule {
 		document: RedocDocument,
 		options: RedocOptions,
 	) {
-		console.log('app');
-		console.log(app.getUrl());
+		console.log('app')
+		console.log(app.getUrl())
 		console.log('setupExpress')
 		const httpAdapter = app.getHttpAdapter()
 		// Normalize URL path to use
@@ -138,15 +138,15 @@ export class RedocModule {
 
 		// Serve ReDoc Frontend
 		httpAdapter.get(finalPath, async (req: Request, res: Response) => {
-			console.log('serving redoc frontend');
+			console.log('serving redoc frontend')
 			const sendPage = () => {
 				// Content-Security-Policy: worker-src 'self' blob:
 				res.setHeader(
 					'Content-Security-Policy',
 					"default-src * 'unsafe-inline' 'unsafe-eval'; script-src * 'unsafe-inline' 'unsafe-eval'; child-src * 'unsafe-inline' 'unsafe-eval' blob:; worker-src * 'unsafe-inline' 'unsafe-eval' blob:; connect-src * 'unsafe-inline'; img-src * data: blob: 'unsafe-inline'; frame-src *; style-src * 'unsafe-inline';",
 				)
-				console.log('res');
-				console.log(res);
+				console.log('res')
+				console.log(res)
 				// whoosh
 				res.send(redocHTML)
 			}

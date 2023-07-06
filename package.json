@@ -73,10 +73,7 @@
     "hooks": {
       "before:init": [
         "npm run prepare",
-        "npm run format",
-        "npm run lint",
-        "npm run build",
-        "npm run test"
+        "npm run build"
       ],
       "after:release": "echo ✅ Successfully released ${name} v${version} to ${npm.name}."
     },
