@@ -79,12 +79,9 @@ export class RedocModule {
 		document: RedocDocument,
 		options: RedocOptions,
 	) {
-		console.log('app')
-		console.log(await app.listen(9977))
-		console.log(await app.getUrl())
-		console.log(await app.getHttpServer());
 		console.log('setupExpress')
 		const httpAdapter = app.getHttpAdapter()
+		console.log(httpAdapter);
 		// Normalize URL path to use
 		const finalPath = this.normalizePath(path)
 		console.log('finalPath -> ', finalPath)
@@ -137,7 +134,7 @@ export class RedocModule {
 
 		console.log('########## finalPath #########')
 		console.log(finalPath)
-
+		console.log('next step serve redoc frontend');
 		// Serve ReDoc Frontend
 		httpAdapter.get(finalPath, async (req: Request, res: Response) => {
 			console.log('serving redoc frontend')
