@@ -79,19 +79,16 @@ export class RedocModule {
 		document: RedocDocument,
 		options: RedocOptions,
 	) {
-		console.log('setupExpress')
 		const httpAdapter = app.getHttpAdapter()
-		console.log(httpAdapter);
+
 		// Normalize URL path to use
 		const finalPath = this.normalizePath(path)
-		console.log('finalPath -> ', finalPath)
+
 		// Add a slash to the end of the URL path to use in URL resolve function
 		const resolvedPath = finalPath.slice(-1) !== '/' ? finalPath + '/' : finalPath
-		console.log('resolvedPath -> ', resolvedPath)
 
 		// Serve swagger spec in another URL appended to the normalized path
 		const docUrl = resolve(resolvedPath, `${options.docName}.json`)
-		console.log('docUrl -> ', docUrl)
 
 		// create helper to convert metadata to JSON
 		const hbs = handlebars.create({
@@ -101,8 +98,7 @@ export class RedocModule {
 				},
 			},
 		})
-		console.log('hbs')
-		console.log(hbs)
+
 		// spread redoc options
 		const { title, favicon, theme, redocVersion, ...otherOptions } = options
 		// create render object
@@ -120,20 +116,13 @@ export class RedocModule {
 				}),
 			},
 		}
-		// console.log('########## renderData #########')
-		// console.log(renderData)
+
 		// this is our handlebars file path
 		const redocFilePath = pathModule.join(__dirname, '..', 'views', 'redoc.handlebars')
-		console.log('########## redocFilePath #########')
-		console.log(redocFilePath)
 
 		// get handlebars rendered HTML
 		const redocHTML = await hbs.render(redocFilePath, renderData)
-		console.log('########## redocHTML #########')
-		console.log(redocHTML)
 
-		console.log('########## finalPath #########')
-		console.log(finalPath)
 		console.log('next step serve redoc frontend');
 		// Serve ReDoc Frontend
 		httpAdapter.get(finalPath, async (req: Request, res: Response) => {
